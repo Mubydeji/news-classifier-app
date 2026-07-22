@@ -5,7 +5,7 @@ max sequence length) or the downloaded weights won't map correctly.
 """
 
 import torch
-from transformers import DistilBertTokenizer, DistilBertForSequenceClassification
+from transformers import DistilBertTokenizer, DistilBertConfig, DistilBertForSequenceClassification
 
 # Must match the label2id mapping used during training, sorted alphabetically
 # from the training notebook's `categories = sorted(train_df['category'].unique())`
@@ -18,18 +18,22 @@ MAX_LENGTH = 512
 
 def load_model_and_tokenizer(weights_path, device):
     """
-    Loads the fine-tuned DistilBERT model and its tokenizer. Raises clearly
-    if the checkpoint doesn't match the expected architecture, rather than
-    failing silently or producing garbage predictions.
+    Loads the fine-tuned DistilBERT model and its tokenizer. The model is
+    built from config only, not from pretrained weights, since our
+    checkpoint already contains a complete fine-tuned model. This avoids
+    downloading and holding the ~268MB base pretrained weights in memory
+    alongside the checkpoint, important on a memory-constrained deployment
+    (Render's free tier caps at 512MB RAM).
     """
     tokenizer = DistilBertTokenizer.from_pretrained('distilbert-base-uncased')
 
-    model = DistilBertForSequenceClassification.from_pretrained(
+    config = DistilBertConfig.from_pretrained(
         'distilbert-base-uncased',
         num_labels=len(CATEGORIES),
         id2label=ID2LABEL,
         label2id=LABEL2ID
     )
+    model = DistilBertForSequenceClassification(config)
 
     state_dict = torch.load(weights_path, map_location=device)
     model.load_state_dict(state_dict)
