@@ -33,12 +33,18 @@ def load_model_and_tokenizer(weights_path, device):
         id2label=ID2LABEL,
         label2id=LABEL2ID
     )
-    model = DistilBertForSequenceClassification(config)
-    model = model.half()  # match the fp16 checkpoint's dtype
+
+    # Build the architecture on the 'meta' device first, this allocates no
+    # real memory at all (just shapes/dtypes), avoiding a costly full-precision
+    # copy before converting to fp16. Necessary on memory-constrained free-tier
+    # hosting (Render's free plan caps at 512MB RAM).
+    with torch.device('meta'):
+        model = DistilBertForSequenceClassification(config)
+    model = model.to_empty(device=device)
+    model = model.half()
 
     state_dict = torch.load(weights_path, map_location=device)
     model.load_state_dict(state_dict)
-    model.to(device)
     model.eval()
 
     return model, tokenizer
