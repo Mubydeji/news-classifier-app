@@ -34,6 +34,7 @@ def load_model_and_tokenizer(weights_path, device):
         label2id=LABEL2ID
     )
     model = DistilBertForSequenceClassification(config)
+    model = model.half()  # match the fp16 checkpoint's dtype
 
     state_dict = torch.load(weights_path, map_location=device)
     model.load_state_dict(state_dict)

@@ -19,7 +19,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 MODEL_REPO_ID = os.environ.get("MODEL_REPO_ID", "muby26/bbc-news-distilbert")
-MODEL_FILENAME = os.environ.get("MODEL_FILENAME", "distilbert_news_classifier.pt")
+MODEL_FILENAME = os.environ.get("MODEL_FILENAME", "distilbert_news_classifier_fp16.pt")
 MIN_TEXT_LENGTH = 20
 MAX_TEXT_LENGTH = 20000  # characters; generous but bounded, avoids abuse via huge payloads
 
