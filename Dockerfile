@@ -5,7 +5,7 @@ WORKDIR /code
 # CPU-only torch, matches the pneumonia app's approach: Render's free tier
 # is CPU-only, no reason to pull in unused CUDA libraries.
 RUN pip install --no-cache-dir \
-    torch==2.2.2 \
+    torch \
     --index-url https://download.pytorch.org/whl/cpu
 
 COPY requirements.txt .
