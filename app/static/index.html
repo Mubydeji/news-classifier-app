@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>News Classifier &middot; BBC Category Prediction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="page">
+
+  <header class="masthead">
+    <span class="eyebrow">Text classification &middot; research prototype</span>
+    <h1>News Category<br>Classifier</h1>
+    <p class="lede">
+      Paste a news article to classify it as <strong>business</strong>,
+      <strong>entertainment</strong>, <strong>politics</strong>, <strong>sport</strong>,
+      or <strong>tech</strong>, using a fine-tuned DistilBERT model.
+    </p>
+  </header>
+
+  <main class="panel">
+
+    <section class="input-stage">
+      <textarea
+        id="articleInput"
+        placeholder="Paste the full text of a news article here&hellip;"
+        rows="10"
+      ></textarea>
+      <div class="input-footer">
+        <span class="char-count" id="charCount">0 characters</span>
+        <button class="classify-button" id="classifyButton">Classify</button>
+      </div>
+    </section>
+
+    <section class="result-stage" id="resultStage" hidden>
+
+      <div class="result-pending" id="resultPending">
+        <span class="pending-label">Classifying&hellip;</span>
+      </div>
+
+      <div class="result-complete" id="resultComplete" hidden>
+        <span class="result-label" id="resultLabel">&mdash;</span>
+
+        <div class="probability-bars" id="probabilityBars"></div>
+      </div>
+
+      <div class="result-error" id="resultError" hidden>
+        <span class="error-label">Could not classify this text.</span>
+        <p class="error-detail" id="errorDetail"></p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="disclaimer">
+    <p>
+      Research prototype fine-tuned on the
+      <a href="https://www.kaggle.com/datasets/hgultekin/bbcnewsarchive" target="_blank" rel="noopener">BBC News Archive</a>
+      (2,225 articles). Benchmarked against TF-IDF, Word2Vec, and zero-shot approaches;
+      TF-IDF slightly outperformed this model on the held-out test set.
+      <a href="https://github.com/Mubydeji/bbc-news-classifier" target="_blank" rel="noopener">Source &amp; full comparison</a>
+    </p>
+  </footer>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
