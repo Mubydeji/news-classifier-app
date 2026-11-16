@@ -1,11 +1,11 @@
-# News Category Classifier — Web App
+# News Category Classifier: Web App
 
 A deployed inference service for the [BBC News classifier](https://github.com/Mubydeji/bbc-news-classifier)
 fine-tuned in a companion notebook. FastAPI backend, static HTML/CSS/JS frontend,
 containerized and deployed to Render. Model weights are hosted on Hugging Face Hub
 and downloaded at container startup.
 
-**Live demo:** _add your Render URL here once deployed_
+**Status:** not deployed yet. Run it locally with the steps below.
 
 **Note:** in the companion notebook's four-way comparison, a simple TF-IDF baseline
 slightly outperformed this fine-tuned DistilBERT model on the held-out test set
